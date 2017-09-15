@@ -74,19 +74,35 @@
         <ul class="pagination">
             <li>
                 {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true"><< previous</span>
-                </a>
+                    {% if course_id_get %}
+                        <a href="?page={{ page_obj.previous_page_number }}&course_id={{ course_id_get }}" aria-label="Previous">
+                            <span aria-hidden="true"><< previous</span>
+                        </a>
+                    {% else %}
+                        <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true"><< previous</span>
+                        </a>
+                    {% endif %}
                 {% endif %}
             </li>
             {% for page_num in paginator.page_range %}
-            <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% if course_id_get %}
+                    <li><a href="?page={{ page_num }}&course_id={{ course_id_get }}">{{ page_num }}</a></li>
+                {% else %}
+                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% endif %}
             {% endfor %}
             <li>
                 {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">next >></span>
-                </a>
+                    {% if course_id_get %}
+                        <a href="?page={{ page_obj.next_page_number }}&course_id={{ course_id_get }}" aria-label="Next">
+                            <span aria-hidden="true">next >></span>
+                        </a>
+                    {% else %}
+                        <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">next >></span>
+                        </a>
+                    {% endif %}
                 {% endif %}
             </li>
         </ul>

@@ -24,15 +24,24 @@ class StudentDetailView(DetailView):
 class StudentListView(ListView):
     model = Student
     paginate_by = 2
+    queryset = Student.objects.order_by('id')
 
     def get_queryset(self):
         qs = super().get_queryset()
-        course_id = self.request.GET.get('course_id', None)
+        self.course_id = self.request.GET.get('course_id', None)
 
-        if course_id:
-            qs = qs.filter(courses__id=course_id)
+        if self.course_id:
+            qs = qs.filter(courses__id=self.course_id)
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.course_id:
+            context['course_id_get'] = self.course_id
+
+        return context
 
 
 class StudentCreateView(CreateView):
